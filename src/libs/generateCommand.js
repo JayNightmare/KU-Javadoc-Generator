@@ -1,7 +1,12 @@
-const vscode = require("vscode");
-// const fetch = require("node-fetch");
+// //
+// * File Imports * //
+import { stripMarkdownCodeFence } from "../utils/stripFence";
 
-async function generateJavadocCommand(uri) {
+// * External Imports * //
+const vscode = require("vscode");
+// //
+
+export async function generateJavadocCommand(uri) {
     const editor = vscode.window.activeTextEditor;
 
     const targetUri =
@@ -57,6 +62,7 @@ async function generateJavadocCommand(uri) {
             "- Keep the original code structure and formatting as much as possible.",
             "- Do NOT remove or rename any classes, methods, or fields.",
             "- Output ONLY the full updated Java file, nothing else.",
+            "- Do NOT output html tags",
             "",
             "Java file:",
             "```java",
@@ -64,8 +70,6 @@ async function generateJavadocCommand(uri) {
             "```",
         ].join("\n");
 
-        // In recent VS Code versions, fetch is available in the extension host.
-        // If you get "fetch is not defined", you can add a polyfill (e.g. undici).
         const response = await fetch(endpoint, {
             method: "POST",
             headers: {
@@ -91,7 +95,7 @@ async function generateJavadocCommand(uri) {
         if (!response.ok) {
             const body = await response.text();
             vscode.window.showErrorMessage(
-                `KU-Javadoc: API call failed (${response.status}). See Output panel for details.`
+                `KU Javadoc: API call failed (${response.status}). See Output panel for details.`
             );
             const channel = vscode.window.createOutputChannel("KU-Javadoc");
             channel.appendLine(`HTTP ${response.status}`);
@@ -103,14 +107,18 @@ async function generateJavadocCommand(uri) {
         const data = await response.json();
         const updated =
             data &&
+            // @ts-ignore
             data.choices &&
+            // @ts-ignore
             data.choices[0] &&
+            // @ts-ignore
             data.choices[0].message &&
+            // @ts-ignore
             data.choices[0].message.content;
 
         if (typeof updated !== "string" || !updated.trim()) {
             vscode.window.showErrorMessage(
-                "KU-Javadoc: Empty response from model."
+                "KU Javadoc: Empty response from model."
             );
             return;
         }
@@ -128,7 +136,7 @@ async function generateJavadocCommand(uri) {
         const applied = await vscode.workspace.applyEdit(edit);
 
         if (!applied) {
-            vscode.window.showErrorMessage("KU-Javadoc: Failed to apply edit.");
+            vscode.window.showErrorMessage("KU Javadoc: Failed to apply edit.");
             return;
         }
 
@@ -142,28 +150,3 @@ async function generateJavadocCommand(uri) {
         status.dispose();
     }
 }
-
-function stripMarkdownCodeFence(text) {
-    const fencePattern = /```(?:java)?\s*([\s\S]*?)```/i;
-    const match = text.match(fencePattern);
-    if (match && match[1]) {
-        return match[1].trimStart();
-    }
-    return text;
-}
-
-function activate(context) {
-    const disposable = vscode.commands.registerCommand(
-        "ku-javadoc.generateFileDocs",
-        generateJavadocCommand
-    );
-
-    context.subscriptions.push(disposable);
-}
-
-function deactivate() {}
-
-module.exports = {
-    activate,
-    deactivate,
-};

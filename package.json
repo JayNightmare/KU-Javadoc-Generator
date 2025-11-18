@@ -10,7 +10,7 @@
         "Other"
     ],
     "activationEvents": [],
-    "main": "./extension.js",
+    "main": "./src/extension.js",
     "author": "Jay",
     "publisher": "JayNightmare",
     "repository": "https://github.com/JayNightmare/KU-Javadoc-Generator",
