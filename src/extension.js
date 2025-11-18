@@ -1,6 +1,8 @@
 // //
 // * File Imports * //
-import generateJavadocCommand from "./libs/generateCommand.js";
+import generateJavadocCommand, {
+    GENERATING_CONTEXT_KEY,
+} from "./libs/generateCommand.js";
 
 // * External Imports * //
 import * as vscode from "vscode";
@@ -12,7 +14,22 @@ export function activate(context) {
         generateJavadocCommand
     );
 
-    context.subscriptions.push(disposable);
+    const busyDisposable = vscode.commands.registerCommand(
+        "ku-javadoc.generateFileDocsBusy",
+        () => {
+            vscode.window.showInformationMessage(
+                "Javadoc generation is already in progress."
+            );
+        }
+    );
+
+    void vscode.commands.executeCommand(
+        "setContext",
+        GENERATING_CONTEXT_KEY,
+        false
+    );
+
+    context.subscriptions.push(disposable, busyDisposable);
 }
 
 export function deactivate() {}

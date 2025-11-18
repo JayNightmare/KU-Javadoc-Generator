@@ -6,7 +6,26 @@ import stripMarkdownCodeFence from "../utils/stripFence.js";
 import * as vscode from "vscode";
 // //
 
+export const GENERATING_CONTEXT_KEY = "kuJavadoc.generating";
+let isGenerating = false;
+
+async function setGeneratingState(value) {
+    isGenerating = value;
+    await vscode.commands.executeCommand(
+        "setContext",
+        GENERATING_CONTEXT_KEY,
+        value
+    );
+}
+
 export default async function generateJavadocCommand(uri) {
+    if (isGenerating) {
+        vscode.window.showInformationMessage(
+            "Javadoc generation is already in progress."
+        );
+        return;
+    }
+
     const editor = vscode.window.activeTextEditor;
 
     const targetUri =
@@ -38,6 +57,7 @@ export default async function generateJavadocCommand(uri) {
     const model = config.get("model") || "gpt-4.1-mini";
     const endpoint =
         config.get("endpoint") || "https://api.openai.com/v1/chat/completions";
+    const username = config.get("name");
 
     if (!apiKey) {
         vscode.window.showErrorMessage(
@@ -46,11 +66,14 @@ export default async function generateJavadocCommand(uri) {
         return;
     }
 
-    const status = vscode.window.setStatusBarMessage(
-        "$(sparkle) Generating Javadoc…"
-    );
+    let statusBar;
 
     try {
+        await setGeneratingState(true);
+        statusBar = vscode.window.setStatusBarMessage(
+            "$(sparkle) Generating Javadoc…"
+        );
+
         const prompt = [
             "You are a Java documentation assistant.",
             "Insert Javadoc comments into the provided Java source while preserving behavior and formatting.",
@@ -74,11 +97,17 @@ export default async function generateJavadocCommand(uri) {
             "Editing rules:",
             "- Preserve the original code, ordering, identifiers, and behavior.",
             "- Do not add, remove, or rename any declarations.",
+            "- If @author doesn't exist, include the users name (username)",
             "- Preserve package/imports and existing formatting/indentation.",
             "- Place Javadoc immediately above each declaration.",
             "- If Javadoc already exists, refine/complete it without removing correct information.",
             "- Do NOT output HTML tags.",
             "- Output ONLY the full updated Java file content—no explanations, no markdown, no code fences.",
+            "",
+            "Username:",
+            "```",
+            username ? username : "None Provided",
+            "```",
             "",
             "Java file:",
             "```java",
@@ -163,6 +192,10 @@ export default async function generateJavadocCommand(uri) {
             `KU Javadoc: ${String(err && err.message ? err.message : err)}`
         );
     } finally {
-        status.dispose();
+        if (statusBar) {
+            statusBar.dispose();
+        }
+
+        await setGeneratingState(false);
     }
 }
