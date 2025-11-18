@@ -11,6 +11,10 @@
     ],
     "activationEvents": [],
     "main": "./extension.js",
+    "author": "Jay",
+    "publisher": "JayNightmare",
+    "repository": "https://github.com/JayNightmare/KU-Javadoc-Generator",
+    "license": "MIT",
     "contributes": {
         "commands": [
             {
@@ -77,6 +81,7 @@
         "eslint": "^9.39.1"
     },
     "dependencies": {
-        "node-fetch": "^3.3.2"
+        "node-fetch": "^3.3.2",
+        "vsce": "^2.15.0"
     }
 }
