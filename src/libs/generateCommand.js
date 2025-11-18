@@ -1,12 +1,12 @@
 // //
 // * File Imports * //
-import { stripMarkdownCodeFence } from "../utils/stripFence";
+import stripMarkdownCodeFence from "../utils/stripFence.js";
 
 // * External Imports * //
-const vscode = require("vscode");
+import * as vscode from "vscode";
 // //
 
-export async function generateJavadocCommand(uri) {
+export default async function generateJavadocCommand(uri) {
     const editor = vscode.window.activeTextEditor;
 
     const targetUri =
@@ -53,16 +53,32 @@ export async function generateJavadocCommand(uri) {
     try {
         const prompt = [
             "You are a Java documentation assistant.",
-            "Take the following Java file and add high-quality Javadoc comments to:",
-            "- public classes, interfaces, enums",
-            "- public and protected methods and constructors",
-            "- important fields where it helps readability",
+            "Insert Javadoc comments into the provided Java source while preserving behavior and formatting.",
             "",
-            "Rules:",
-            "- Keep the original code structure and formatting as much as possible.",
-            "- Do NOT remove or rename any classes, methods, or fields.",
-            "- Output ONLY the full updated Java file, nothing else.",
-            "- Do NOT output html tags",
+            "Coverage requirements (nothing should be missed):",
+            "- Document every top-level and nested: class, interface, enum (and record/annotation types if present).",
+            "- Document every constructor and every method (all visibilities: public, protected, package-private, private).",
+            "",
+            "For each type (class/interface/enum/record/annotation):",
+            "- Provide a concise summary of purpose and responsibilities.",
+            "- Include @param <T> tags for all type parameters when generics are used.",
+            "",
+            "For each method/constructor:",
+            "- Start with a concise summary sentence.",
+            "- Include @param for each parameter (use meaningful descriptions).",
+            "- Include @return for all non-void methods.",
+            "- Include @throws for each declared exception.",
+            "- Include @param <T> for method type parameters when generics are used.",
+            "- Base descriptions strictly on the code and names; avoid speculation.",
+            "",
+            "Editing rules:",
+            "- Preserve the original code, ordering, identifiers, and behavior.",
+            "- Do not add, remove, or rename any declarations.",
+            "- Preserve package/imports and existing formatting/indentation.",
+            "- Place Javadoc immediately above each declaration.",
+            "- If Javadoc already exists, refine/complete it without removing correct information.",
+            "- Do NOT output HTML tags.",
+            "- Output ONLY the full updated Java file content—no explanations, no markdown, no code fences.",
             "",
             "Java file:",
             "```java",
@@ -144,7 +160,7 @@ export async function generateJavadocCommand(uri) {
         vscode.window.showInformationMessage("Javadoc generated successfully.");
     } catch (err) {
         vscode.window.showErrorMessage(
-            `KU-Javadoc: ${String(err && err.message ? err.message : err)}`
+            `KU Javadoc: ${String(err && err.message ? err.message : err)}`
         );
     } finally {
         status.dispose();

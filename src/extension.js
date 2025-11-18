@@ -1,12 +1,12 @@
 // //
 // * File Imports * //
-import { generateJavadocCommand } from "./libs/generateCommand.js";
+import generateJavadocCommand from "./libs/generateCommand.js";
 
 // * External Imports * //
-const vscode = require("vscode");
+import * as vscode from "vscode";
 // //
 
-function activate(context) {
+export function activate(context) {
     const disposable = vscode.commands.registerCommand(
         "ku-javadoc.generateFileDocs",
         generateJavadocCommand
@@ -15,9 +15,4 @@ function activate(context) {
     context.subscriptions.push(disposable);
 }
 
-function deactivate() {}
-
-module.exports = {
-    activate,
-    deactivate,
-};
+export function deactivate() {}
