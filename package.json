@@ -10,12 +10,15 @@
     "categories": [
         "Other"
     ],
-    "icon": "./src/images/public/KU Javadoc.png",
+    "icon": "./src/images/public/ku-javadoc.png",
     "activationEvents": [],
     "main": "./src/extension.js",
     "author": "Jay",
     "publisher": "JayNightmare",
-    "repository": "https://github.com/JayNightmare/KU-Javadoc-Generator",
+    "repository": {
+        "type": "git",
+        "repo": "https://github.com/JayNightmare/KU-Javadoc-Generator"
+    },
     "license": "MIT",
     "contributes": {
         "commands": [
