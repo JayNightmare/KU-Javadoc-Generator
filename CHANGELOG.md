@@ -2,7 +2,12 @@
 
 All notable changes to the "ku-javadoc" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+## [0.0.3] - 18/11/2025
+- Added toolbar button for generating Javadoc comments.
+- Updated README.
+- Improved prompt design to prevent renaming or removing code elements.
+- Fixed minor bugs related to API endpoint configuration.
+- Restuructured code for better maintainability.
 
 ## [Unreleased]
 

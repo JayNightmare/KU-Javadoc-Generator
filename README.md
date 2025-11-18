@@ -9,9 +9,9 @@
 
 # Kingston University (KU) Javadoc – VS Code Extension
 
-KU Javadoc is a Visual Studio Code extension that generates Javadoc comments for Java files using an AI model hosted by [Groq](https://groq.com/).
+KU Javadoc is a Visual Studio Code extension that generates Javadoc comments for Java files using an AI model.
 
-Right–click any `.java` file in VS Code, choose **“Generate Javadoc for File”**, and the extension will:
+Right–click any `.java` file (or press the icon on the toolbar), choose **"Generate Javadoc for File"**, and the extension will:
 
 1. Send the file contents to an AI model.
 2. Insert appropriate Javadoc comments into the code.
@@ -26,7 +26,9 @@ This tool is designed for teaching and learning: students keep control of their 
 - **Context menu integration**
   - Right–click in the **editor** on a Java file.
   - Or right–click a `.java` file in the **Explorer**.
-  - Choose **“Generate Javadoc for File”**.
+  - Choose **"Generate Javadoc for File"**.
+- **Toolbar button**
+  - Click the button in the top-right corner of the editor when a Java file is open.
 - **Automatic Javadoc generation**
   - Javadoc for:
     - Public classes, interfaces, enums

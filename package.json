@@ -2,7 +2,7 @@
     "name": "ku-javadoc",
     "displayName": "KU Javadoc",
     "description": "java doc for Kingston University",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "type": "module",
     "engines": {
         "vscode": "^1.106.1"
@@ -10,6 +10,7 @@
     "categories": [
         "Other"
     ],
+    "icon": "./src/images/public/KU Javadoc.png",
     "activationEvents": [],
     "main": "./src/extension.js",
     "author": "Jay",
@@ -25,7 +26,11 @@
             {
                 "command": "ku-javadoc.generateFileDocs",
                 "title": "Generate Javadoc for File",
-                "category": "KU-javadoc"
+                "category": "KU-javadoc",
+                "icon": {
+                    "dark": "./src/images/tools/dark/dark-audit.png",
+                    "light": "./src/images/tools/light/light-audit.png"
+                }
             }
         ],
         "menus": {
@@ -37,6 +42,13 @@
                 }
             ],
             "explorer/context": [
+                {
+                    "command": "ku-javadoc.generateFileDocs",
+                    "group": "navigation@9",
+                    "when": "resourceExtname == .java"
+                }
+            ],
+            "editor/title": [
                 {
                     "command": "ku-javadoc.generateFileDocs",
                     "group": "navigation@9",
