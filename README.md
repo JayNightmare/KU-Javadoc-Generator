@@ -1,10 +1,12 @@
 <div align="center">
   <h1>KU Javadoc – VS Code Extension</h1>
-  <p>
+  <div>
+    
+![GitHub Release](https://img.shields.io/github/v/release/jaynightmare/KU-Javadoc-Generator?style=flat-square)
     <a href="https://marketplace.visualstudio.com/items?itemName=jaynightmare.ku-javadoc">
       <img src="https://img.shields.io/visual-studio-marketplace/v/jaynightmare.ku-javadoc?label=VS%20Code%20Marketplace&style=flat-square" alt="VS Code Marketplace" />
     </a>
-    </p>
+    </div>
 </div>
 
 # Kingston University (KU) Javadoc – VS Code Extension
