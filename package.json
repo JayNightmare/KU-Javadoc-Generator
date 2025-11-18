@@ -1,10 +1,10 @@
 {
     "name": "ku-javadoc",
-    "displayName": "ku-javadoc",
-    "description": "java doc for ku",
+    "displayName": "KU Javadoc",
+    "description": "java doc for Kingston University",
     "version": "0.0.1",
     "engines": {
-        "vscode": "^1.106.0"
+        "vscode": "^1.106.1"
     },
     "categories": [
         "Other"
@@ -40,12 +40,13 @@
             ]
         },
         "configuration": {
-            "title": "KU-Javadoc",
+            "title": "KU Javadoc",
             "properties": {
                 "ku-javadoc.apiKey": {
                     "type": "string",
                     "description": "API key for the LLM used to generate Javadoc.",
-                    "scope": "application"
+                    "scope": "application",
+                    "password": true
                 },
                 "ku-javadoc.model": {
                     "type": "string",
