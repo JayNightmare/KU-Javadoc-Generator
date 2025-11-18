@@ -1,0 +1,81 @@
+{
+    "name": "ku-javadoc",
+    "displayName": "ku-javadoc",
+    "description": "java doc for ku",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.106.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [],
+    "main": "./extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "ku-javadoc.helloWorld",
+                "title": "Hello World"
+            },
+            {
+                "command": "ku-javadoc.generateFileDocs",
+                "title": "Generate Javadoc for File",
+                "category": "KU-javadoc"
+            }
+        ],
+        "menus": {
+            "editor/context": [
+                {
+                    "command": "ku-javadoc.generateFileDocs",
+                    "group": "navigation@9",
+                    "when": "resourceExtname == .java"
+                }
+            ],
+            "explorer/context": [
+                {
+                    "command": "ku-javadoc.generateFileDocs",
+                    "group": "navigation@9",
+                    "when": "resourceExtname == .java"
+                }
+            ]
+        },
+        "configuration": {
+            "title": "KU-Javadoc",
+            "properties": {
+                "ku-javadoc.apiKey": {
+                    "type": "string",
+                    "description": "API key for the LLM used to generate Javadoc.",
+                    "scope": "application"
+                },
+                "ku-javadoc.model": {
+                    "type": "string",
+                    "default": "llama-3.1-8b-instant",
+                    "description": "Model name to use for Javadoc generation.",
+                    "scope": "application"
+                },
+                "ku-javadoc.endpoint": {
+                    "type": "string",
+                    "default": "https://api.groq.com/openai/v1/chat/completions",
+                    "description": "OpenAI-compatible chat completions endpoint URL.",
+                    "scope": "application"
+                }
+            }
+        }
+    },
+    "scripts": {
+        "lint": "eslint .",
+        "pretest": "npm run lint",
+        "test": "vscode-test"
+    },
+    "devDependencies": {
+        "@types/mocha": "^10.0.10",
+        "@types/node": "22.x",
+        "@types/vscode": "^1.106.1",
+        "@vscode/test-cli": "^0.0.12",
+        "@vscode/test-electron": "^2.5.2",
+        "eslint": "^9.39.1"
+    },
+    "dependencies": {
+        "node-fetch": "^3.3.2"
+    }
+}
