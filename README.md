@@ -24,6 +24,17 @@ This tool is designed for teaching and learning: students keep control of their 
 
 ---
 
+## Table of Contents
+- [Table of Contents](#table-of-contents)
+- [Features](#features)
+- [Requirements](#requirements)
+- [First-time setup](#first-time-setup)
+- [Extension Settings](#extension-settings)
+- [Prompt Used for Javadoc Generation](#prompt-used-for-javadoc-generation)
+- [Known Issues](#known-issues)
+
+---
+
 ## Features
 
 - **Context menu integration**
@@ -47,8 +58,8 @@ This tool is designed for teaching and learning: students keep control of their 
 
 ## Requirements
 
-- **Visual Studio Code** `^1.106.1`
-- **Internet connection**
+- **Visual Studio Code** `^1.106.1` (Latest stable version recommended)
+- **Internet connection** (for API calls)
 - **OpenAI-compatible API key**
   - Recommended: free-tier key from [OpenRouter](https://openrouter.ai/keys) (defaults ship with their endpoints/models).
   - You can point the extension at Groq or any other OpenAI-compatible host.
@@ -74,3 +85,66 @@ This extension contributes the following settings:
 * `ku-javadoc.endpoint`: The API endpoint URL for the provider (defaults to OpenRouter-compatible Groq endpoint).
 * `ku-javadoc.model`: The model name to use for generating Javadoc (default is OpenRouter's `llama-3.1-8b-instant`).
 * `ku-javadoc.name`: Optional author name inserted into generated comments.
+
+---
+
+## Prompt Used for Javadoc Generation
+The extension uses the following prompt to guide the AI model in generating Javadoc comments:
+
+```javascript
+const prompt = [
+    "You are a Java documentation assistant.",
+    "Insert Javadoc comments into the provided Java source while preserving behavior and formatting.",
+    "",
+    "Coverage requirements (nothing should be missed):",
+    "- Document every top-level and nested: class, interface, enum (and record/annotation types if present).",
+    "- Document every constructor and every method (all visibilities: public, protected, package-private, private).",
+    "",
+    "For each type (class/interface/enum/record/annotation):",
+    "- Provide a concise summary of purpose and responsibilities.",
+    "- Include @param <T> tags for all type parameters when generics are used.",
+    "",
+    "For each method/constructor:",
+    "- Start with a concise summary sentence.",
+    "- Include @param for each parameter (use meaningful descriptions).",
+    "- Include @return for all non-void methods.",
+    "- Include @throws for each declared exception.",
+    "- Include @param <T> for method type parameters when generics are used.",
+    "- Base descriptions strictly on the code and names; avoid speculation.",
+    "",
+    "Editing rules:",
+    "- Preserve the original code, ordering, identifiers, and behavior.",
+    "- Do not add, remove, or rename any declarations.",
+    "- If @author doesn't exist, include the users name (username)",
+    "- Preserve package/imports and existing formatting/indentation.",
+    "- Place Javadoc immediately above each declaration.",
+    "- If Javadoc already exists, refine/complete it without removing correct information.",
+    "- Do NOT output HTML tags.",
+    "- Output ONLY the full updated Java file content—no explanations, no markdown, no code fences.",
+    "",
+    "Username:",
+    "```",
+    username ? username : "None Provided",
+    "```",
+    "",
+    "Java file:",
+    "```java",
+    originalText,
+    "```",
+].join("\n");
+```
+
+---
+
+## Known Issues
+- The extension relies on the AI model's understanding of Java; results may vary based on the model's capabilities.
+  - I recommend testing with small files first to verify quality
+  - and also using the default model provided.
+- Pressing the "Generate Javadoc for File" command repeatedly in quick succession causes file "corruption" (e.g., missing code sections due to the model replacing lines that don't exist).
+  - **Avoid** rapid repeated invocations to prevent this issue.
+  - **Consider** saving your work before generating Javadoc to avoid data loss.
+  - **WAIT** for one generation to complete before starting another.
+- Network issues or invalid API keys will prevent Javadoc generation.
+  - Ensure your API key is correct and your network connection is stable.
+
+If you encounter any issues or have suggestions for improvement, please open an issue on the [GitHub repository](https://github.com/jaynightmare/KU-Javadoc-Generator/issues).
