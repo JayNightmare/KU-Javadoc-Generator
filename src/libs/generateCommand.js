@@ -60,9 +60,13 @@ export default async function generateJavadocCommand(uri) {
     const username = config.get("name");
 
     if (!apiKey) {
-        vscode.window.showErrorMessage(
-            "Set ku-javadoc.apiKey in Settings before using this command."
+        const action = await vscode.window.showErrorMessage(
+            "Set ku-javadoc.apiKey in Settings before using this command.",
+            "Open setup"
         );
+        if (action === "Open setup") {
+            await vscode.commands.executeCommand("ku-javadoc.openOnboarding");
+        }
         return;
     }
 

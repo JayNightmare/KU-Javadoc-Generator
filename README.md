@@ -19,7 +19,7 @@ Right–click any `.java` file (or press the icon on the toolbar), choose **"Gen
 2. Insert appropriate Javadoc comments into the code.
 3. Replace the original file with the documented version.
 
-This tool is designed for teaching and learning: students keep control of their own API keys and can use free-tier access from Groq.
+This tool is designed for teaching and learning: students keep control of their own API keys and can use free-tier access from OpenRouter, Groq, or any OpenAI-compatible provider.
 
 ---
 
@@ -48,28 +48,28 @@ This tool is designed for teaching and learning: students keep control of their 
 
 - **Visual Studio Code** `^1.106.1`
 - **Internet connection**
-- **Groq API key**
-  - Free-tier account from [Groq Console](https://console.groq.com/) (or whichever provider you choose).
-  - A model name that the provider supports (default is a Groq model).
+- **OpenAI-compatible API key**
+  - Recommended: free-tier key from [OpenRouter](https://openrouter.ai/keys) (defaults ship with their endpoints/models).
+  - You can point the extension at Groq or any other OpenAI-compatible host.
 
 ---
 
-## Installation Process
-1. Open Visual Studio Code.
-2. Go to the Settings (Top Right > Cog Icon > Settings).
-3. Search for "KU Javadoc" in the Settings search bar.
-4. Locate the "KU Javadoc: Api Key" field.
-   - Go to [Groq Console](https://console.groq.com/keys) to sign up for a free account if you don't have one.
-   - Navigate to the API Keys section in the Groq Console.
-   - Create a new API key and copy it.
-5. Paste the copied API key into the "KU Javadoc: Api Key" field in VS Code.
+## First-time setup
+1. Launch the command palette and run **KU Javadoc: Open Setup** (also available from the `Get Started` walkthrough card).
+2. Enter the author name you want to appear in the `@author` tag.
+3. Paste your OpenRouter (or other provider) API key.
+4. Keep the default endpoint/model, or adjust them if you prefer another host.
+5. Press **Save settings**.
 
-To see if it's working, right–click a Java file and choose **"Generate Javadoc for File"**. If everything is set up correctly, the extension will process the file and add Javadoc comments. 
+You can reopen the setup panel at any time via the same command.
+
+To verify everything, right–click a Java file and choose **"Generate Javadoc for File"**. If configuration is complete, the extension will process the file and add Javadoc comments.
 
 ---
 
 ## Extension Settings
 This extension contributes the following settings:
-* `ku-javadoc.apiKey`: Your API key for the AI provider (e.g., Groq).
-* `ku-javadoc.apiEndpoint`: The API endpoint URL for the AI provider (default is Groq's endpoint).
-* `ku-javadoc.model`: The model name to use for generating Javadoc (default is a Groq model).
+* `ku-javadoc.apiKey`: Your API key for the AI provider (e.g., OpenRouter or Groq).
+* `ku-javadoc.endpoint`: The API endpoint URL for the provider (defaults to OpenRouter-compatible Groq endpoint).
+* `ku-javadoc.model`: The model name to use for generating Javadoc (default is OpenRouter's `llama-3.1-8b-instant`).
+* `ku-javadoc.name`: Optional author name inserted into generated comments.

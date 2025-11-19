@@ -2,7 +2,7 @@
     "name": "ku-javadoc",
     "displayName": "KU Javadoc",
     "description": "java doc for Kingston University",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "type": "module",
     "engines": {
         "vscode": "^1.106.1"
@@ -11,7 +11,9 @@
         "Other"
     ],
     "icon": "./src/images/public/ku-javadoc.png",
-    "activationEvents": [],
+    "activationEvents": [
+        "onStartupFinished"
+    ],
     "main": "./src/extension.js",
     "author": "Jay",
     "publisher": "JayNightmare",
@@ -25,6 +27,11 @@
             {
                 "command": "ku-javadoc.helloWorld",
                 "title": "Hello World"
+            },
+            {
+                "command": "ku-javadoc.openOnboarding",
+                "title": "KU Javadoc: Open Setup",
+                "category": "KU-javadoc"
             },
             {
                 "command": "ku-javadoc.generateFileDocs",
@@ -86,6 +93,9 @@
             ],
             "commandPalette": [
                 {
+                    "command": "ku-javadoc.openOnboarding"
+                },
+                {
                     "command": "ku-javadoc.generateFileDocs",
                     "when": "!kuJavadoc.generating"
                 },
@@ -123,7 +133,31 @@
                     "scope": "application"
                 }
             }
-        }
+        },
+        "walkthroughs": [
+            {
+                "id": "ku-javadoc.walkthrough",
+                "title": "Get started with KU Javadoc",
+                "description": "Configure your API access once and start generating documentation from any Java file.",
+                "steps": [
+                    {
+                        "id": "ku-javadoc.walkthrough.setup",
+                        "title": "Configure API access",
+                        "description": "Provide your name, OpenRouter API key, endpoint, and preferred model using the guided setup. [Open setup](command:ku-javadoc.openOnboarding)",
+                        "media": {
+                            "image": "./src/images/public/ku-javadoc.png",
+                            "altText": "KU Javadoc icon"
+                        }
+                    }
+                ]
+            }
+        ],
+        "viewsWelcome": [
+            {
+                "view": "workbench.explorer.fileView",
+                "contents": "Start generating Javadoc faster by configuring KU Javadoc. [Open setup](command:ku-javadoc.openOnboarding)"
+            }
+        ]
     },
     "scripts": {
         "lint": "eslint .",
