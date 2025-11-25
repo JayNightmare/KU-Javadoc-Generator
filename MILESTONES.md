@@ -33,4 +33,15 @@
 ### 5. Ecosystem integrations
 - VSCode task providers for mass documentation runs triggered from launch/config files.
 - API surface for other extensions to request language-aware doc generation programmatically.
-- Explore GitHub Action/workflow template using the shared prompt library for PR checks.
+- Explore GitHub Action/workflow template using the shared prompt library for PR checks
+
+### 6. Generate a site for the doc (using maven site plugin)
+- Configure Maven Site Plugin to generate project documentation site.
+- Integrate generated Javadoc into the Maven site for easy access.
+- Customize site layout and navigation to highlight generated documentation.
+- Provide instructions for hosting the Maven site on GitHub Pages or other platforms.
+- Automate site generation as part of the CI/CD pipeline.
+- Include versioning support for documentation to track changes over time.
+- Add search functionality to the generated site for easy navigation of documentation.
+- Ensure responsive design for accessibility on various devices.
+- Document the process of generating and maintaining the Maven site in project README.
