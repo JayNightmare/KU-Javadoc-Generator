@@ -2,7 +2,7 @@
     "name": "ku-javadoc",
     "displayName": "KU Javadoc",
     "description": "java doc for Kingston University",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "type": "module",
     "engines": {
         "vscode": "^1.106.1"
