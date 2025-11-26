@@ -18,11 +18,13 @@ async function setGeneratingState(value) {
     );
 }
 
-export default async function generateJavadocCommand(uri) {
+export default async function generateJavadocCommand(uri, silent = false) {
     if (isGenerating) {
-        vscode.window.showInformationMessage(
-            "Javadoc generation is already in progress."
-        );
+        if (!silent) {
+            vscode.window.showInformationMessage(
+                "Javadoc generation is already in progress."
+            );
+        }
         return;
     }
 
@@ -103,8 +105,9 @@ export default async function generateJavadocCommand(uri) {
             "- Do not add, remove, or rename any declarations.",
             "- If @author doesn't exist, include the users name (username)",
             "- Preserve package/imports and existing formatting/indentation.",
+            "- If Javadoc already exists, check if it contains the @param, @return, @throws, and @author tags and update them if necessary. If not, refine/complete it without removing correct information",
+            "    - Return 'N/A - No changes were required from me' if no changes were needed. Do NOT expand upon this—just return that phrase exactly as is.",
             "- Place Javadoc immediately above each declaration.",
-            "- If Javadoc already exists, refine/complete it without removing correct information.",
             "- Do NOT output HTML tags.",
             "- Output ONLY the full updated Java file content—no explanations, no markdown, no code fences.",
             "",
@@ -172,6 +175,15 @@ export default async function generateJavadocCommand(uri) {
             return;
         }
 
+        if (updated.includes("N/A")) {
+            if (!silent) {
+                vscode.window.showInformationMessage(
+                    "No Javadoc updates were necessary."
+                );
+            }
+            return;
+        }
+
         const cleaned = stripMarkdownCodeFence(updated);
 
         const fullRange = new vscode.Range(
@@ -190,7 +202,11 @@ export default async function generateJavadocCommand(uri) {
         }
 
         await document.save();
-        vscode.window.showInformationMessage("Javadoc generated successfully.");
+        if (!silent) {
+            vscode.window.showInformationMessage(
+                "Javadoc generated successfully."
+            );
+        }
     } catch (err) {
         vscode.window.showErrorMessage(
             `KU Javadoc: ${String(err && err.message ? err.message : err)}`

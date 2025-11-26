@@ -3,6 +3,10 @@
 import generateJavadocCommand, {
     GENERATING_CONTEXT_KEY,
 } from "./libs/generateCommand.js";
+import {
+    configureSiteCommand,
+    generateSiteCommand,
+} from "./libs/siteGenerator.js";
 import getOnboardingHtml from "./webviews/onboardingHtml.js";
 
 // * External Imports * //
@@ -33,6 +37,16 @@ export function activate(context) {
         }
     );
 
+    const configureSiteDisposable = vscode.commands.registerCommand(
+        "ku-javadoc.configureSite",
+        configureSiteCommand
+    );
+
+    const generateSiteDisposable = vscode.commands.registerCommand(
+        "ku-javadoc.generateSite",
+        generateSiteCommand
+    );
+
     void vscode.commands.executeCommand(
         "setContext",
         GENERATING_CONTEXT_KEY,
@@ -44,7 +58,9 @@ export function activate(context) {
     context.subscriptions.push(
         disposable,
         busyDisposable,
-        onboardingDisposable
+        onboardingDisposable,
+        configureSiteDisposable,
+        generateSiteDisposable
     );
 }
 

@@ -35,13 +35,14 @@
 - API surface for other extensions to request language-aware doc generation programmatically.
 - Explore GitHub Action/workflow template using the shared prompt library for PR checks
 
-### 6. Generate a site for the doc (using maven site plugin)
-- Configure Maven Site Plugin to generate project documentation site.
-- Integrate generated Javadoc into the Maven site for easy access.
-- Customize site layout and navigation to highlight generated documentation.
-- Provide instructions for hosting the Maven site on GitHub Pages or other platforms.
-- Automate site generation as part of the CI/CD pipeline.
-- Include versioning support for documentation to track changes over time.
-- Add search functionality to the generated site for easy navigation of documentation.
-- Ensure responsive design for accessibility on various devices.
-- Document the process of generating and maintaining the Maven site in project README.
+### 6. Generate a site for the doc (Completed)
+- [x] Configure Maven Site Plugin to generate project documentation site.
+- [x] Integrate generated Javadoc into the Maven site for easy access.
+- [x] Customize site layout and navigation to highlight generated documentation.
+- [x] Provide instructions for hosting the Maven site on GitHub Pages or other platforms.
+- [x] Automate site generation as part of the CI/CD pipeline.
+- [x] Include versioning support for documentation to track changes over time.
+- [x] Add search functionality to the generated site for easy navigation of documentation.
+- [x] Ensure responsive design for accessibility on various devices.
+- [x] Document the process of generating and maintaining the Maven site in project README.
+- [x] Support non-Maven projects via Javadoc CLI and GitHub Actions.

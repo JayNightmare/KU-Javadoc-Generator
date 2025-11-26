@@ -2,7 +2,7 @@
     "name": "ku-javadoc",
     "displayName": "KU Javadoc",
     "description": "java doc for Kingston University",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "type": "module",
     "engines": {
         "vscode": "^1.106.1"
@@ -52,6 +52,16 @@
                     "light": "./src/images/tools/gen/light/light-writing.png"
                 },
                 "enablement": "kuJavadoc.generating"
+            },
+            {
+                "command": "ku-javadoc.configureSite",
+                "title": "Configure Documentation Site",
+                "category": "KU-javadoc"
+            },
+            {
+                "command": "ku-javadoc.generateSite",
+                "title": "Generate Documentation Site",
+                "category": "KU-javadoc"
             }
         ],
         "menus": {
@@ -102,6 +112,12 @@
                 {
                     "command": "ku-javadoc.generateFileDocsBusy",
                     "when": "kuJavadoc.generating"
+                },
+                {
+                    "command": "ku-javadoc.configureSite"
+                },
+                {
+                    "command": "ku-javadoc.generateSite"
                 }
             ]
         },
