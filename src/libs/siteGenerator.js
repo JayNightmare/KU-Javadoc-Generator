@@ -165,6 +165,12 @@ export async function generateSiteCommand() {
                             }/${total})`,
                             increment: 100 / total,
                         });
+
+                        // Check if file is already well-documented
+                        if (await isDocumentedEnough(fileUri)) {
+                            continue;
+                        }
+
                         // Pass true for silent mode
                         await generateJavadocCommand(fileUri, true);
                     }
@@ -200,6 +206,80 @@ export async function generateSiteCommand() {
         vscode.window.showInformationMessage(
             "Generated 'javadoc-options.txt' with source files and started Javadoc generation."
         );
+    }
+}
+
+async function isDocumentedEnough(uri) {
+    try {
+        let enoughTags = false;
+        let enoughDesc = false;
+
+        // Get document symbols
+        const symbols = await vscode.commands.executeCommand(
+            "vscode.executeDocumentSymbolProvider",
+            uri
+        );
+
+        if (!symbols) {
+            return false;
+        }
+
+        // Count classes, methods, and constructors
+        let elementCount = 0;
+        const countElements = (items) => {
+            for (const item of items) {
+                if (
+                    item.kind === vscode.SymbolKind.Class ||
+                    item.kind === vscode.SymbolKind.Interface ||
+                    item.kind === vscode.SymbolKind.Enum ||
+                    item.kind === vscode.SymbolKind.Method ||
+                    item.kind === vscode.SymbolKind.Constructor
+                ) {
+                    elementCount++;
+                }
+                if (item.children) {
+                    countElements(item.children);
+                }
+            }
+        };
+        countElements(symbols);
+
+        // Read file content to count tags
+        const document = await vscode.workspace.openTextDocument(uri);
+        const text = document.getText();
+
+        // Count @param, @return, @throws tags
+        const paramCount = (text.match(/@param/g) || []).length;
+        const returnCount = (text.match(/@return/g) || []).length;
+        const throwsCount = (text.match(/@throws/g) || []).length;
+        const tagCount = paramCount + returnCount + throwsCount;
+
+        // If tag count is greater than or equal to element count, we assume it's documented enough
+        // This is a heuristic requested by the user
+        if (tagCount >= elementCount) {
+            enoughTags = true;
+        }
+
+        // Additionally, check for overall descriptive comments
+        const docCommentRegex = /\/\*\*([\s\S]*?)\*\//g;
+        let match;
+        let descCount = 0;
+        while ((match = docCommentRegex.exec(text)) !== null) {
+            const commentContent = match[1];
+            // Consider a comment descriptive if it has at least 15 characters (excluding whitespace)
+            if (commentContent.replace(/\s+/g, "").length >= 15) {
+                descCount++;
+            }
+        }
+
+        if (descCount >= elementCount / 2) {
+            enoughDesc = true;
+        }
+
+        return enoughTags && enoughDesc;
+    } catch (e) {
+        console.error("Error checking documentation status:", e);
+        return false; // Default to generating if check fails
     }
 }
 
@@ -292,6 +372,17 @@ async function configureSimpleProject(rootPath) {
 }
 
 async function createWorkflowFile(rootPath, isMaven) {
+    const gitPath = path.join(rootPath, ".git");
+
+    try {
+        await vscode.workspace.fs.stat(vscode.Uri.file(gitPath));
+    } catch {
+        vscode.window.showWarningMessage(
+            "No .git folder found in workspace root. Skipping workflow creation."
+        );
+        return;
+    }
+
     const workflowsDir = path.join(rootPath, ".github", "workflows");
     const workflowFile = path.join(workflowsDir, "doc-site.yml");
 
