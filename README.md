@@ -32,6 +32,8 @@ This tool is designed for teaching and learning: students keep control of their 
 - [Extension Settings](#extension-settings)
 - [Prompt Used for Javadoc Generation](#prompt-used-for-javadoc-generation)
 - [Known Issues](#known-issues)
+- [Documentation Site Generation](#documentation-site-generation)
+- [Available Commands](#available-commands)
 
 ---
 
@@ -53,6 +55,10 @@ This tool is designed for teaching and learning: students keep control of their 
 - **Provider-agnostic**
   - Defaults to Groq.
   - Can be pointed at any OpenAI-compatible endpoint (OpenAI, OpenRouter, etc.) via settings.
+- **Documentation Site Generation**
+  - Generates a static documentation site for your Java project.
+  - Supports both Maven (via `maven-site-plugin`) and standard Java projects (via `javadoc`).
+  - Automatically creates a GitHub Actions workflow for deploying to GitHub Pages.
 
 ---
 
@@ -148,3 +154,34 @@ const prompt = [
   - Ensure your API key is correct and your network connection is stable.
 
 If you encounter any issues or have suggestions for improvement, please open an issue on the [GitHub repository](https://github.com/jaynightmare/KU-Javadoc-Generator/issues).
+
+## Documentation Site Generation
+
+The extension can help you set up a documentation site for your project, hosted on GitHub Pages.
+
+1.  Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`).
+2.  Run **"KU Javadoc: Configure Documentation Site"**.
+    *   This will detect if your project is a Maven project or a simple Java project.
+    *   **For Maven:** It updates `pom.xml` with `maven-site-plugin` and `maven-javadoc-plugin`.
+    *   **For Simple Java:** It prepares the project for standard Javadoc generation.
+    *   It creates a GitHub Actions workflow (`.github/workflows/doc-site.yml`) to build and deploy the site.
+    *   It updates your project's `README.md` with instructions.
+3.  To generate the site locally, run **"KU Javadoc: Generate Documentation Site"**.
+    *   This opens a terminal and runs the appropriate command (`mvn site` or `javadoc ...`).
+
+Once configured, pushing to your `main` or `master` branch will trigger the GitHub Action to build and deploy your documentation site to GitHub Pages.
+
+## Available Commands
+
+You can access these commands from the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`):
+
+*   **KU Javadoc: Open Setup**
+    *   Opens the onboarding/setup panel to configure your API key and settings.
+*   **Generate Javadoc for File**
+    *   Generates Javadoc comments for the currently active Java file.
+    *   Also available via context menu (right-click) and editor toolbar.
+*   **KU Javadoc: Configure Documentation Site**
+    *   Sets up the project for documentation site generation (Maven or standard Javadoc).
+    *   Creates/updates `pom.xml` (if Maven) and creates a GitHub Actions workflow.
+*   **KU Javadoc: Generate Documentation Site**
+    *   Runs the local command to generate the documentation site (`mvn site` or `javadoc`).
