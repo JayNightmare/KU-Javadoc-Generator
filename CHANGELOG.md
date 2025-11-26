@@ -2,6 +2,17 @@
 
 All notable changes to the "ku-javadoc" extension will be documented in this file.
 
+## [0.0.8] - 26/11/2025
+- **Major Fix:** Improved the speed of file doc generation by:
+  - Optimising the prompt structure
+  - Adding test cases to check for enough existing documentation before making API calls
+    - Files with sufficient Javadoc comments are now skipped to save time and resources.
+    - Checked for enough tags (@param, @return, etc.) and descriptive summaries.
+      - Considered a comment descriptive if it has at least 15 characters (excluding whitespace).
+      - Files with at least 80% of methods/classes documented are skipped.
+- Refined Javadoc generation prompt to include file description and author tag.
+
+
 ## [0.0.7] - 26/11/2025
 - Improved documentation site generation:
   - Enhanced search functionality for better navigation.
