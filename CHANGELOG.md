@@ -2,13 +2,25 @@
 
 All notable changes to the "ku-javadoc" extension will be documented in this file.
 
-## [0.0.6] - 19/11/2025
+## [0.0.7] - 26/11/2025
+- Improved documentation site generation:
+  - Enhanced search functionality for better navigation.
+  - Added support for custom themes in Maven site generation.
+  - Fixed responsive design issues on mobile devices.
+- Updated onboarding walkthrough to include documentation site setup instructions.
+
+## [0.0.7-beta] - 26/11/2025
 - Added "Documentation Site" feature:
   - Supports both Maven and non-Maven Java projects.
   - Configures `pom.xml` for Maven projects with `maven-site-plugin` and `maven-javadoc-plugin`.
   - Generates GitHub Actions workflow (`.github/workflows/doc-site.yml`) for automated deployment to GitHub Pages.
   - Updates `README.md` with instructions on how to generate and deploy the site.
   - New commands: `ku-javadoc.configureSite` and `ku-javadoc.generateSite`.
+
+## [0.0.6] - 20/11/2025
+- Improved documentation:
+  - Refactored setup instructions for clarity.
+  - Added troubleshooting section for common issues.
 
 ## [0.0.5] - 19/11/2025
 - Added "KU Javadoc: Open Setup" walkthrough entry and welcome view so new users can find the guided experience.
