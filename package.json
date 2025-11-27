@@ -1,11 +1,11 @@
 {
     "name": "ku-javadoc",
     "displayName": "KU Javadoc",
-    "description": "java doc for Kingston University",
-    "version": "0.0.8",
+    "description": "java doc for Kingston University. Made to work with AntiGravity (and other IDE's with vscode ^1.104.0)",
+    "version": "0.0.9",
     "type": "module",
     "engines": {
-        "vscode": "^1.106.1"
+        "vscode": "^1.104.0"
     },
     "categories": [
         "Other"
@@ -183,7 +183,7 @@
     "devDependencies": {
         "@types/mocha": "^10.0.10",
         "@types/node": "22.x",
-        "@types/vscode": "^1.106.1",
+        "@types/vscode": "^1.104.0",
         "@vscode/test-cli": "^0.0.12",
         "@vscode/test-electron": "^2.5.2",
         "eslint": "^9.39.1"
